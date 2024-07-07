@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predicting Anaemia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center align the content */
+        }
+        .predict {
+            width: 50%;
+            margin: 0 auto; /* Center the form horizontally */
+            text-align: left; /* Align form elements to the left */
+        }
+        .range-container {
+            border: 1px solid #ccc; /* Border around the range input container */
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .range-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .value-display {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="predict">
+        <h1>Predicting Anaemia from Image Pixels and Hemoglobin Levels</h1>
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group range-container">
+                <label for="rp">Red Pixel:</label>
+                <input type="range" name="%Red Pixel" id="rp" placeholder="Red Pixel" min="0" max="100" value="50" required="required" oninput="updateValue('rp')">
+                <div class="value-display" id="rp-value">50</div>
+            </div>
+            <div class="form-group range-container">
+                <label for="gp">Green Pixel:</label>
+                <input type="range" name="%Green pixel" id="gp" placeholder="Green Pixel" min="0" max="100" value="50" required="required" oninput="updateValue('gp')">
+                <div class="value-display" id="gp-value">50</div>
+            </div>
+            <div class="form-group range-container">
+                <label for="bp">Blue Pixel:</label>
+                <input type="range" name="%Blue pixel" id="bp" placeholder="Blue Pixel" min="0" max="100" value="50" required="required" oninput="updateValue('bp')">
+                <div class="value-display" id="bp-value">50</div>
+            </div>
+            <div class="form-group range-container">
+                <label for="hb">HB:</label>
+                <input type="range" name="Hb" id="hb" placeholder="HB" min="0" max="100" value="50" required="required" oninput="updateValue('hb')">
+                <div class="value-display" id="hb-value">50</div>
+            </div>
+            <div class="form-group">
+                <label for="sex">Sex (1 for Male, 0 for Female):</label>
+                <input type="number" name="Sex" id="sex" placeholder="Sex" min="0" max="1" required="required">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+        </form>
+        <br>
+        <br>
+        <p>{{ prediction_text }}</p>
+    </div>
+    <script>
+        function updateValue(id) {
+            var slider = document.getElementById(id);
+            var output = document.getElementById(id + '-value');
+            output.innerHTML = slider.value;
+        }
+
+        // Initialize display values
+        document.addEventListener("DOMContentLoaded", function() {
+            updateValue('rp');
+            updateValue('gp');
+            updateValue('bp');
+            updateValue('hb');
+        });
+    </script>
+</body>
+</html>
